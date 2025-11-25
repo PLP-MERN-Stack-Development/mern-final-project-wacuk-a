@@ -1,0 +1,86 @@
+import React from 'react';
+import { NotificationBell } from './Notifications/NotificationBell';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const Header: React.FC = () => {
+  const { user, logout, isAuthenticated } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  return (
+    <header style={headerStyle}>
+      <div style={logoStyle}>
+        <h2>🇰🇪 Kenya Telemedicine</h2>
+      </div>
+      <nav style={navStyle}>
+        <Link to="/" style={linkStyle}>Home</Link>
+        
+        {isAuthenticated ? (
+          <>
+            <Link to="/dashboard" style={linkStyle}>Dashboard</Link>
+            <span style={userInfoStyle}>
+              Welcome, {user?.firstName}!
+            </span>
+{user && <NotificationBell />}
+            <button onClick={handleLogout} style={logoutButtonStyle}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={linkStyle}>Login</Link>
+            <Link to="/register" style={linkStyle}>Register</Link>
+          </>
+        )}
+      </nav>
+    </header>
+  );
+};
+
+const headerStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '1rem 2rem',
+  backgroundColor: '#2E8B57',
+  color: 'white'
+};
+
+const logoStyle: React.CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 'bold'
+};
+
+const navStyle: React.CSSProperties = {
+  display: 'flex',
+  gap: '1rem',
+  alignItems: 'center'
+};
+
+const linkStyle: React.CSSProperties = {
+  color: 'white',
+  textDecoration: 'none',
+  padding: '0.5rem 1rem',
+  borderRadius: '4px',
+  transition: 'background-color 0.3s'
+};
+
+const userInfoStyle: React.CSSProperties = {
+  padding: '0.5rem 1rem',
+  fontStyle: 'italic'
+};
+
+const logoutButtonStyle: React.CSSProperties = {
+  backgroundColor: 'transparent',
+  color: 'white',
+  border: '1px solid white',
+  padding: '0.5rem 1rem',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s'
+};
+
+export default Header;

@@ -1,0 +1,542 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Login from './components/Login';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+import VideoConsultation from './components/VideoConsultation';
+import { AuthProvider } from './context/AuthContext';
+import { MedicalProvider } from "./contexts/MedicalContext";
+import './App.css';
+import { NotificationProvider } from "./contexts/NotificationContext";
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+<MedicalProvider>
+<NotificationProvider>
+      <Router>
+        <div className="App">
+          <Header />
+          <main style={mainStyle}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route 
+                path="/dashboard/*" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/video-consultation/:appointmentId" 
+                element={
+                  <ProtectedRoute>
+                    <VideoConsultation 
+                      doctorName="Wangari Maathai"
+                      appointmentId="APT001"
+                      onEndCall={() => window.location.href = '/dashboard'}
+                    />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+</MedicalProvider>
+</NotificationProvider>
+    </AuthProvider>
+  );
+};
+
+const HomePage: React.FC = () => {
+  return (
+    <div style={pageStyle}>
+      {/* Hero Section */}
+      <div style={heroStyle}>
+        <div style={heroContentStyle}>
+          <h1 style={heroTitleStyle}>Quality Healthcare Made Accessible</h1>
+          <p style={heroSubtitleStyle}>
+            Connect with certified doctors across Kenya via secure video consultations. 
+            Affordable, convenient, and available 24/7.
+          </p>
+          <div style={heroButtonsStyle}>
+            <button 
+              style={primaryButtonStyle}
+              onClick={() => window.location.href = '/register'}
+            >
+              Get Started Today
+            </button>
+            <button 
+              style={secondaryButtonStyle}
+              onClick={() => window.location.href = '/login'}
+            >
+              Existing Patient
+            </button>
+          </div>
+        </div>
+        <div style={heroImageStyle}>
+          <div style={placeholderImageStyle}>
+            <span style={imageTextStyle}>🩺 Kenya Telemedicine</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div style={featuresSectionStyle}>
+        <h2 style={sectionTitleStyle}>Why Choose Kenya Telemedicine?</h2>
+        <div style={featuresGridStyle}>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>🎯</div>
+            <h3>County-Wide Access</h3>
+            <p>Healthcare services available across all 47 counties in Kenya</p>
+          </div>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>💳</div>
+            <h3>M-Pesa Integration</h3>
+            <p>Secure and convenient payments through M-Pesa</p>
+          </div>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>📱</div>
+            <h3>Mobile First</h3>
+            <p>Access healthcare services from your smartphone</p>
+          </div>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>⏰</div>
+            <h3>24/7 Availability</h3>
+            <p>Round-the-clock access to healthcare professionals</p>
+          </div>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>🔒</div>
+            <h3>Secure & Private</h3>
+            <p>End-to-end encryption for all consultations</p>
+          </div>
+          <div style={featureCardStyle}>
+            <div style={featureIconStyle}>💊</div>
+            <h3>E-Prescriptions</h3>
+            <p>Digital prescriptions sent directly to pharmacies</p>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works */}
+      <div style={howItWorksStyle}>
+        <h2 style={sectionTitleStyle}>How It Works</h2>
+        <div style={stepsStyle}>
+          <div style={stepStyle}>
+            <div style={stepNumberStyle}>1</div>
+            <h3>Create Account</h3>
+            <p>Sign up in minutes with your basic information</p>
+          </div>
+          <div style={stepStyle}>
+            <div style={stepNumberStyle}>2</div>
+            <h3>Find a Doctor</h3>
+            <p>Browse doctors by specialty, county, or availability</p>
+          </div>
+          <div style={stepStyle}>
+            <div style={stepNumberStyle}>3</div>
+            <h3>Book Appointment</h3>
+            <p>Schedule a consultation at your convenience</p>
+          </div>
+          <div style={stepStyle}>
+            <div style={stepNumberStyle}>4</div>
+            <h3>Video Consult</h3>
+            <p>Connect with your doctor via secure video call</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Statistics */}
+      <div style={statsStyle}>
+        <div style={statsContainerStyle}>
+          <div style={statItemStyle}>
+            <div style={statNumberStyle}>10,000+</div>
+            <div style={statLabelStyle}>Patients Served</div>
+          </div>
+          <div style={statItemStyle}>
+            <div style={statNumberStyle}>500+</div>
+            <div style={statLabelStyle}>Certified Doctors</div>
+          </div>
+          <div style={statItemStyle}>
+            <div style={statNumberStyle}>47</div>
+            <div style={statLabelStyle}>Counties Covered</div>
+          </div>
+          <div style={statItemStyle}>
+            <div style={statNumberStyle}>98%</div>
+            <div style={statLabelStyle}>Satisfaction Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AboutPage: React.FC = () => {
+  return (
+    <div style={pageStyle}>
+      <div style={aboutStyle}>
+        <h1>About Kenya Telemedicine</h1>
+        <p>
+          Kenya Telemedicine is a revolutionary healthcare platform designed to make quality 
+          medical care accessible to all Kenyans, regardless of their location.
+        </p>
+        <div style={missionStyle}>
+          <h2>Our Mission</h2>
+          <p>
+            To bridge the healthcare gap in Kenya by leveraging technology to connect patients 
+            with qualified healthcare providers through secure, convenient, and affordable 
+            telemedicine services.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ContactPage: React.FC = () => {
+  return (
+    <div style={pageStyle}>
+      <div style={contactStyle}>
+        <h1>Contact Us</h1>
+        <div style={contactGridStyle}>
+          <div style={contactInfoStyle}>
+            <h3>Get in Touch</h3>
+            <p>📞 Customer Support: 0700 123 456</p>
+            <p>📧 Email: support@kenyatelemedicine.co.ke</p>
+            <p>📍 Headquarters: Nairobi, Kenya</p>
+          </div>
+          <div style={contactFormStyle}>
+            <h3>Send us a Message</h3>
+            <form style={formStyle}>
+              <input type="text" placeholder="Your Name" style={inputStyle} />
+              <input type="email" placeholder="Your Email" style={inputStyle} />
+              <textarea placeholder="Your Message" rows={4} style={textareaStyle}></textarea>
+              <button type="submit" style={primaryButtonStyle}>Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Footer: React.FC = () => {
+  return (
+    <footer style={footerStyle}>
+      <div style={footerContentStyle}>
+        <div style={footerSectionStyle}>
+          <h4>Kenya Telemedicine</h4>
+          <p>Making healthcare accessible to all Kenyans through technology.</p>
+        </div>
+        <div style={footerSectionStyle}>
+          <h4>Quick Links</h4>
+          <a href="/" style={footerLinkStyle}>Home</a>
+          <a href="/about" style={footerLinkStyle}>About</a>
+          <a href="/contact" style={footerLinkStyle}>Contact</a>
+        </div>
+        <div style={footerSectionStyle}>
+          <h4>Services</h4>
+          <a href="/dashboard" style={footerLinkStyle}>Book Appointment</a>
+          <a href="/dashboard" style={footerLinkStyle}>Find Doctors</a>
+          <a href="/dashboard" style={footerLinkStyle}>Video Consultation</a>
+        </div>
+      </div>
+      <div style={footerBottomStyle}>
+        <p>&copy; 2024 Kenya Telemedicine. All rights reserved.</p>
+      </div>
+    </footer>
+  );
+};
+
+// Styles
+const mainStyle: React.CSSProperties = {
+  minHeight: '80vh'
+};
+
+const pageStyle: React.CSSProperties = {
+  padding: '0'
+};
+
+// Home Page Styles
+const heroStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '2rem',
+  padding: '4rem 2rem',
+  backgroundColor: '#2E8B57',
+  color: 'white',
+  alignItems: 'center'
+};
+
+const heroContentStyle: React.CSSProperties = {
+  maxWidth: '600px'
+};
+
+const heroTitleStyle: React.CSSProperties = {
+  fontSize: '3rem',
+  fontWeight: 'bold',
+  marginBottom: '1rem',
+  lineHeight: '1.2'
+};
+
+const heroSubtitleStyle: React.CSSProperties = {
+  fontSize: '1.2rem',
+  marginBottom: '2rem',
+  opacity: 0.9
+};
+
+const heroButtonsStyle: React.CSSProperties = {
+  display: 'flex',
+  gap: '1rem'
+};
+
+const primaryButtonStyle: React.CSSProperties = {
+  padding: '1rem 2rem',
+  backgroundColor: 'white',
+  color: '#2E8B57',
+  border: 'none',
+  borderRadius: '8px',
+  fontSize: '1.1rem',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  transition: 'transform 0.2s ease'
+};
+
+const secondaryButtonStyle: React.CSSProperties = {
+  padding: '1rem 2rem',
+  backgroundColor: 'transparent',
+  color: 'white',
+  border: '2px solid white',
+  borderRadius: '8px',
+  fontSize: '1.1rem',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease'
+};
+
+const heroImageStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+};
+
+const placeholderImageStyle: React.CSSProperties = {
+  width: '400px',
+  height: '300px',
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: '2px dashed rgba(255, 255, 255, 0.3)'
+};
+
+const imageTextStyle: React.CSSProperties = {
+  fontSize: '1.5rem',
+  opacity: 0.7
+};
+
+const featuresSectionStyle: React.CSSProperties = {
+  padding: '4rem 2rem',
+  backgroundColor: 'white'
+};
+
+const sectionTitleStyle: React.CSSProperties = {
+  textAlign: 'center',
+  fontSize: '2.5rem',
+  marginBottom: '3rem',
+  color: '#2E8B57'
+};
+
+const featuresGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+  gap: '2rem',
+  maxWidth: '1200px',
+  margin: '0 auto'
+};
+
+const featureCardStyle: React.CSSProperties = {
+  textAlign: 'center',
+  padding: '2rem',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '12px',
+  border: '1px solid #e9ecef',
+  transition: 'transform 0.2s ease'
+};
+
+const featureIconStyle: React.CSSProperties = {
+  fontSize: '3rem',
+  marginBottom: '1rem'
+};
+
+const howItWorksStyle: React.CSSProperties = {
+  padding: '4rem 2rem',
+  backgroundColor: '#f8f9fa'
+};
+
+const stepsStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gap: '2rem',
+  maxWidth: '1000px',
+  margin: '0 auto'
+};
+
+const stepStyle: React.CSSProperties = {
+  textAlign: 'center',
+  padding: '2rem'
+};
+
+const stepNumberStyle: React.CSSProperties = {
+  width: '60px',
+  height: '60px',
+  backgroundColor: '#2E8B57',
+  color: 'white',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  margin: '0 auto 1rem'
+};
+
+const statsStyle: React.CSSProperties = {
+  padding: '4rem 2rem',
+  backgroundColor: '#2E8B57',
+  color: 'white'
+};
+
+const statsContainerStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+  gap: '2rem',
+  maxWidth: '800px',
+  margin: '0 auto',
+  textAlign: 'center'
+};
+
+const statItemStyle: React.CSSProperties = {
+  padding: '1rem'
+};
+
+const statNumberStyle: React.CSSProperties = {
+  fontSize: '2.5rem',
+  fontWeight: 'bold',
+  marginBottom: '0.5rem'
+};
+
+const statLabelStyle: React.CSSProperties = {
+  fontSize: '1.1rem',
+  opacity: 0.9
+};
+
+// About Page Styles
+const aboutStyle: React.CSSProperties = {
+  maxWidth: '800px',
+  margin: '0 auto',
+  padding: '4rem 2rem',
+  textAlign: 'center'
+};
+
+const missionStyle: React.CSSProperties = {
+  marginTop: '2rem',
+  padding: '2rem',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '8px'
+};
+
+// Contact Page Styles
+const contactStyle: React.CSSProperties = {
+  maxWidth: '1000px',
+  margin: '0 auto',
+  padding: '4rem 2rem'
+};
+
+const contactGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '3rem',
+  marginTop: '2rem'
+};
+
+const contactInfoStyle: React.CSSProperties = {
+  padding: '2rem',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '8px'
+};
+
+const contactFormStyle: React.CSSProperties = {
+  padding: '2rem',
+  backgroundColor: 'white',
+  borderRadius: '8px',
+  border: '1px solid #e9ecef'
+};
+
+const formStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem'
+};
+
+const inputStyle: React.CSSProperties = {
+  padding: '0.75rem',
+  border: '1px solid #ddd',
+  borderRadius: '4px',
+  fontSize: '1rem'
+};
+
+const textareaStyle: React.CSSProperties = {
+  padding: '0.75rem',
+  border: '1px solid #ddd',
+  borderRadius: '4px',
+  fontSize: '1rem',
+  resize: 'vertical'
+};
+
+// Footer Styles
+const footerStyle: React.CSSProperties = {
+  backgroundColor: '#2d2d2d',
+  color: 'white',
+  padding: '2rem 0 0'
+};
+
+const footerContentStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gap: '2rem',
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '0 2rem'
+};
+
+const footerSectionStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem'
+};
+
+const footerLinkStyle: React.CSSProperties = {
+  color: '#ccc',
+  textDecoration: 'none',
+  transition: 'color 0.2s ease'
+};
+
+const footerBottomStyle: React.CSSProperties = {
+  textAlign: 'center',
+  padding: '1.5rem',
+  marginTop: '2rem',
+  borderTop: '1px solid #444',
+  color: '#ccc'
+};
+
+export default App;
